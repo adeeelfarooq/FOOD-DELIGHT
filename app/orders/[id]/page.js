@@ -84,7 +84,7 @@ export default function OrderDetails({ params }) {
       case "cancelled":
         return "bg-red-500"
       default:
-        return "bg-yellow-500"
+        return "bg-amber-500"
     }
   }
 
@@ -119,8 +119,8 @@ export default function OrderDetails({ params }) {
   const deliveryFee = 2.99
   const subtotal = Math.max(0, order.totalAmount - deliveryFee)
 
-  return (
-    <div className="container px-4 py-6 pb-24 md:pb-6">
+ return (
+    <div className="container px-4 py-6 pb-24 md:pb-6 animate-fade-in-up">
       <Header title="Order Details" />
 
       <Card className="mb-6">
@@ -192,8 +192,16 @@ export default function OrderDetails({ params }) {
         </CardContent>
       </Card>
 
-      <div className="mt-6">
-        <Button variant="outline" className="w-full" onClick={() => router.push("/orders")}>Back to Orders</Button>
+      <div className="mt-6 space-y-2">
+        <Button
+          className="w-full bg-orange-red-500 hover:bg-orange-red-600"
+          onClick={() => router.push("/cart")}
+        >
+          Reorder
+        </Button>
+        <Button variant="outline" className="w-full" onClick={() => router.push("/orders")}>
+          Back to Orders
+        </Button>
       </div>
     </div>
   )

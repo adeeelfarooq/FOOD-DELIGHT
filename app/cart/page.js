@@ -12,7 +12,8 @@ import { useAuth } from "@/context/auth-context"
 import { Minus, Plus, Trash2 } from "lucide-react"
 import LoadingScreen from "@/components/loading-screen"
 import Header from "@/components/header"
-// No need for Firestore imports as we're using temporary storage
+import { addDoc, collection, doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore"
+import { db } from "@/lib/firebase"
 
 export default function Cart() {
   const { cartItems = [], updateQuantity, removeFromCart, clearCart, cartTotal = 0 } = useCart() || {}
@@ -29,6 +30,16 @@ export default function Cart() {
   }, [user, loading, router])
 
   const handlePlaceOrder = async () => {
+    if (!user) {
+      toast({
+        variant: "destructive",
+        title: "Login Required",
+        description: "You need to log in before placing an order.",
+      })
+      router.push("/signin")
+      return
+    }
+
     if (cartItems.length === 0) {
       toast({
         variant: "destructive",
@@ -41,33 +52,76 @@ export default function Cart() {
     setIsPlacingOrder(true)
 
     try {
-      // Generate a random order ID
-      const orderId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-      
-      // Store order in temporary array (this would normally be stored in a more persistent state)
-      const orderData = {
-        id: orderId,
-        userId: user?.uid,
-        items: cartItems,
-        totalAmount: cartTotal + 2.99, // Including delivery fee
-        status: "Pending",
-        createdAt: new Date(),
+      const userDocRef = doc(db, "users", user.uid)
+      const userDoc = await getDoc(userDocRef)
+
+      if (!userDoc.exists()) {
+        await setDoc(userDocRef, {
+          phone: "",
+          address: { street: "", city: "", state: "", postalCode: "" },
+        })
+
+        toast({
+          variant: "destructive",
+          title: "Missing Info",
+          description: "Please add your delivery address and phone number in Settings.",
+        })
+        router.push("/settings")
+        setIsPlacingOrder(false)
+        return
       }
-      
-      // In a real app, you might want to store this in localStorage or a more persistent state
-      // For now, we'll just log it to console
-      console.log("Order placed:", orderData);
-      
-      // Clear the cart
+
+      const userData = userDoc.data()
+
+      if (!userData?.phone || !userData?.address?.street) {
+        toast({
+          variant: "destructive",
+          title: "Missing Info",
+          description: "Please update your delivery address and phone number in Settings.",
+        })
+        router.push("/settings")
+        setIsPlacingOrder(false)
+        return
+      }
+
+      const orderItems = cartItems.map((item) => ({
+        foodItem: {
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          image: item.image,
+          description: item.description || "",
+          category: item.category || "Other",
+        },
+        quantity: item.quantity,
+      }))
+
+      const orderData = {
+        userId: user.uid,
+        userEmail: user.email,
+        userName: user.displayName || "Customer",
+        phone: userData.phone,
+        items: orderItems,
+        totalAmount: cartTotal + 2.99,
+        status: "Pending",
+        createdAt: serverTimestamp(),
+        deliveryAddress: {
+          ...userData.address,
+          fullAddress: `${userData.address.street}, ${userData.address.city}, ${userData.address.state} ${userData.address.postalCode}`,
+        },
+      }
+
+      const orderRef = await addDoc(collection(db, "orders"), orderData)
+      const orderId = orderRef.id
+
       clearCart()
-      
-      // Navigate to home page with success message
+
       toast({
         title: "Order Placed",
-        description: "Your order has been placed successfully!",
+        description: "Your order was placed successfully!",
       })
-      
-      router.push('/home')
+
+      router.push(`/order-confirmation?id=${orderId}`)
     } catch (error) {
       console.error("Error placing order:", error)
       toast({

@@ -72,12 +72,12 @@ export default function OrderConfirmation() {
 
   return (
     <div className="container flex items-center justify-center min-h-screen px-4 py-12">
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md animate-fade-in-up">
         <CardHeader className="text-center">
           <div className="flex justify-between items-center mb-4">
             <div className="flex-1"></div>
             <div className="flex-1 flex justify-center">
-              <CheckCircle className="h-16 w-16 text-green-500" />
+              <CheckCircle className="h-16 w-16 text-emerald-500" />
             </div>
             <div className="flex-1 flex justify-end">
               <ThemeToggle />

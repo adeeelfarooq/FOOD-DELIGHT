@@ -80,7 +80,7 @@ export default function Orders() {
       case "cancelled":
         return "bg-red-500"
       default:
-        return "bg-yellow-500"
+        return "bg-amber-500"
     }
   }
 
@@ -125,10 +125,11 @@ export default function Orders() {
 
       {orders.length > 0 ? (
         <div className="space-y-4">
-          {orders.map((order) => (
+          {orders.map((order, index) => (
             <Card
               key={order.id}
-              className="overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
+              className="overflow-hidden cursor-pointer hover:shadow-md transition-shadow animate-fade-in-up"
+              style={{ animationDelay: `${index * 120}ms` }}
               onClick={() => handleOrderClick(order.id)}
             >
               <CardHeader className="pb-2">
@@ -159,7 +160,7 @@ export default function Orders() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-12">
+        <div className="text-center py-12 animate-scale-in">
           <div className="flex justify-center mb-4">
             <ShoppingBag className="h-12 w-12 text-muted-foreground" />
           </div>
