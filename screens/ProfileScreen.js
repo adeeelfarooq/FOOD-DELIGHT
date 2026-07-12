@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View, Animated } from 'react-native';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
-import { auth } from '../lib/firebase';
+import { auth } from '../lib/firebase.native';
 
 const ProfileScreen = ({ navigation }) => {
   const { isDark } = useTheme();

@@ -4,7 +4,7 @@ import { MotiText, MotiView } from 'moti';
 import { useState } from 'react';
 import { ActivityIndicator, Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
-import { auth, db } from '../lib/firebase';
+import { auth, db } from '../lib/firebase.native';
 
 export default function SignUpScreen({ navigation }) {
   const { isDark } = useTheme();

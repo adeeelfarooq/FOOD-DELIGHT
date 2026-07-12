@@ -2,73 +2,96 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
 
-const CartContext = createContext({});
+const CartContext = createContext({
+  cartItems: [],
+  cartTotal: 0,
+  addToCart: () => {},
+  removeFromCart: () => {},
+  updateQuantity: () => {},
+  clearCart: () => {},
+});
 
 export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
-  const [items, setItems] = useState([]);
-  const [total, setTotal] = useState(0);
+  const [cartItems, setCartItems] = useState([]);
+  const [cartTotal, setCartTotal] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  // Calculate total whenever items change
   useEffect(() => {
-    const newTotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    setTotal(newTotal);
-  }, [items]);
+    try {
+      const savedCart = localStorage.getItem("cart");
+      if (savedCart) {
+        setCartItems(JSON.parse(savedCart));
+      }
+    } catch (error) {
+      console.error("Error loading cart from storage:", error);
+    } finally {
+      setIsLoaded(true);
+    }
+  }, []);
 
-  const addItem = (item) => {
-    setItems((prevItems) => {
-      // Check if item already exists in cart
-      const existingItemIndex = prevItems.findIndex((i) => i.id === item.id);
-      
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    const total = cartItems.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
+    setCartTotal(total);
+
+    try {
+      localStorage.setItem("cart", JSON.stringify(cartItems));
+    } catch (error) {
+      console.error("Error saving cart to storage:", error);
+    }
+  }, [cartItems, isLoaded]);
+
+  const addToCart = (item) => {
+    setCartItems((prevItems) => {
+      const existingItemIndex = prevItems.findIndex(
+        (cartItem) => cartItem.id === item.id
+      );
+
       if (existingItemIndex > -1) {
-        // Update quantity if item exists
         const updatedItems = [...prevItems];
         updatedItems[existingItemIndex] = {
           ...updatedItems[existingItemIndex],
-          quantity: updatedItems[existingItemIndex].quantity + 1,
+          quantity:
+            updatedItems[existingItemIndex].quantity + (item.quantity || 1),
         };
         return updatedItems;
       } else {
-        // Add new item with quantity 1
-        return [...prevItems, { ...item, quantity: 1 }];
+        return [...prevItems, { ...item, quantity: item.quantity || 1 }];
       }
     });
   };
 
-  const removeItem = (itemId) => {
-    setItems((prevItems) => {
-      const existingItemIndex = prevItems.findIndex((i) => i.id === itemId);
-      
-      if (existingItemIndex > -1) {
-        const updatedItems = [...prevItems];
-        if (updatedItems[existingItemIndex].quantity > 1) {
-          // Decrease quantity if more than 1
-          updatedItems[existingItemIndex] = {
-            ...updatedItems[existingItemIndex],
-            quantity: updatedItems[existingItemIndex].quantity - 1,
-          };
-          return updatedItems;
-        } else {
-          // Remove item if quantity is 1
-          return prevItems.filter((item) => item.id !== itemId);
-        }
-      }
-      return prevItems;
-    });
+  const removeFromCart = (itemId) => {
+    setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+  };
+
+  const updateQuantity = (itemId, quantity) => {
+    if (quantity <= 0) {
+      removeFromCart(itemId);
+      return;
+    }
+    setCartItems((prevItems) =>
+      prevItems.map((item) => (item.id === itemId ? { ...item, quantity } : item))
+    );
   };
 
   const clearCart = () => {
-    setItems([]);
+    setCartItems([]);
   };
 
   const value = {
-    items,
-    total,
-    addItem,
-    removeItem,
+    cartItems,
+    cartTotal,
+    addToCart,
+    removeFromCart,
+    updateQuantity,
     clearCart,
-    itemCount: items.reduce((count, item) => count + item.quantity, 0),
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

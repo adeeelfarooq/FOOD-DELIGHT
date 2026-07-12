@@ -8,7 +8,8 @@ import { useCart } from "@/context/cart-context"
 export default function BottomNavigator() {
   const router = useRouter()
   const pathname = usePathname()
-  const { cartItems } = useCart()
+  const cart = useCart()
+  const cartItems = cart?.cartItems ?? []
 
   // Hide bottom navigator on authentication pages
   const authPages = ["/signin", "/signup", "/forgot-password", "/"]
@@ -42,7 +43,7 @@ export default function BottomNavigator() {
         onClick={() => router.push("/cart")}
       >
         <ShoppingCart className="h-5 w-5" />
-        {cartItems.length > 0 && (
+        {(cartItems?.length ?? 0) > 0 && (
           <span className="absolute top-0 right-1/4 bg-orange-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
             {cartItems.length}
           </span>

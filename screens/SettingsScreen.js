@@ -6,7 +6,7 @@ import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TextInput, Touc
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
-import { db } from '../lib/firebase';
+import { db } from '../lib/firebase.native';
 
 const SettingsScreen = ({ navigation }) => {
   const { isDark } = useTheme();

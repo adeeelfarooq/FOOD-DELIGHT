@@ -9,7 +9,7 @@ import { useAuth } from "../context/AuthContext"
 import { useToast } from "../context/ToastContext"
 import { useTheme } from "../context/ThemeContext"
 import { addDoc, collection, serverTimestamp, doc, getDoc, setDoc } from "firebase/firestore"
-import { db } from "../lib/firebase"
+import { db } from "../lib/firebase.native"
 
 export default function CartScreen({ navigation }) {
   const { cartItems, updateQuantity, clearCart, cartTotal } = useCart()

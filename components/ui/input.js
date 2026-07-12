@@ -5,12 +5,7 @@ import { Slot } from "@radix-ui/react-slot"
 
 import { cn } from "@/lib/utils"
 
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
-    asChild?: boolean
-  }
-
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
+const Input = React.forwardRef(
   ({ className, type, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "input"
 

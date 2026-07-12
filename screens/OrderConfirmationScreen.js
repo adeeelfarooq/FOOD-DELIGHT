@@ -8,7 +8,7 @@ import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from "rea
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
-import { db } from "../lib/firebase";
+import { db } from "../lib/firebase.native";
 
 export default function OrderConfirmationScreen({ route, navigation }) {
   const { orderId } = route.params

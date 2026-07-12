@@ -9,7 +9,7 @@ import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View }
 import { SafeAreaView } from "react-native-safe-area-context"
 import { useAuth } from "../context/AuthContext"
 import { useTheme } from "../context/ThemeContext"
-import { db } from "../lib/firebase"
+import { db } from "../lib/firebase.native"
 
 export default function OrdersScreen({ navigation }) {
   const [orders, setOrders] = useState([])

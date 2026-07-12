@@ -6,7 +6,7 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/hooks/use-toast"
 import { useCart } from "@/context/cart-context"
 import { useAuth } from "@/context/auth-context"
 import { Minus, Plus, Trash2 } from "lucide-react"
@@ -15,7 +15,7 @@ import Header from "@/components/header"
 // No need for Firestore imports as we're using temporary storage
 
 export default function Cart() {
-  const { cartItems, updateQuantity, removeFromCart, clearCart, cartTotal } = useCart()
+  const { cartItems = [], updateQuantity, removeFromCart, clearCart, cartTotal = 0 } = useCart() || {}
   const { user, loading } = useAuth()
   const router = useRouter()
   const { toast } = useToast()

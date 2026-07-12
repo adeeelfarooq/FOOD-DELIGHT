@@ -13,7 +13,7 @@ import {
   Image,
 } from "react-native"
 import { signInWithEmailAndPassword } from "firebase/auth"
-import { auth } from "../lib/firebase"
+import { auth } from "../lib/firebase.native"
 import { useToast } from "../context/ToastContext"
 import { useTheme } from "../context/ThemeContext"
 import { Ionicons } from "@expo/vector-icons"

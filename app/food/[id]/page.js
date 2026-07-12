@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/hooks/use-toast"
 import { useCart } from "@/context/cart-context"
 import { Minus, Plus, ShoppingCart } from "lucide-react"
 import LoadingScreen from "@/components/loading-screen"
@@ -17,7 +17,7 @@ export default function FoodDetails({ params }) {
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
   const { toast } = useToast()
-  const { addToCart } = useCart()
+  const { addToCart } = useCart() || {}
 
   useEffect(() => {
     // Sample food items data

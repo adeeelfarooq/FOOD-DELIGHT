@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/hooks/use-toast"
 import { useCart } from "@/context/cart-context"
 import { ShoppingCart } from "lucide-react"
 import Image from "next/image"
@@ -10,18 +10,23 @@ import { useRouter } from "next/navigation"
 
 export default function FoodCard({ food }) {
   const router = useRouter()
-  const { addToCart } = useCart()
-  const { showToast } = useToast()
+  const { addToCart } = useCart() || {}
+  const { toast } = useToast()
 
-  const handleAddToCart = (e) => {
+   const handleAddToCart = (e) => {
     e.stopPropagation()
+
+    if (typeof addToCart !== "function") {
+      console.error("Cart is not ready yet")
+      return
+    }
 
     addToCart({
       ...food,
       quantity: 1,
     })
 
-    showToast({
+    toast({
       title: "Added to cart",
       description: `${food.name} added to your cart`,
     })

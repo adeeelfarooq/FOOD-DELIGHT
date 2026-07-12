@@ -6,8 +6,8 @@ import { useAuth } from "@/context/auth-context"
 import FoodCard from "@/components/food-card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { ShoppingCart, Search } from "lucide-react"
-import { useToast } from "@/components/ui/use-toast"
+import { ShoppingCart, Search, History, User } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
 import { useCart } from "@/context/cart-context"
 import LoadingScreen from "@/components/loading-screen"
 import { ThemeToggle } from "@/components/theme-toggle" // Updated import
@@ -18,7 +18,7 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("")
   const [isLoading, setIsLoading] = useState(true)
   const { user, loading } = useAuth()
-  const { cartItems } = useCart()
+  const { cartItems = [] } = useCart() || {}
   const router = useRouter()
   const { toast } = useToast()
 
@@ -115,13 +115,19 @@ export default function Home() {
         </div>
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <Button variant="outline" size="icon" className="relative" onClick={() => router.push("/cart")}>
+          <Button variant="outline" size="icon" className="hidden md:inline-flex" onClick={() => router.push("/orders")}>
+            <History className="h-5 w-5" />
+          </Button>
+          <Button variant="outline" size="icon" className="hidden md:inline-flex" onClick={() => router.push("/cart")}>
             <ShoppingCart className="h-5 w-5" />
             {cartItems.length > 0 && (
               <span className="absolute -top-2 -right-2 bg-orange-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                 {cartItems.length}
               </span>
             )}
+          </Button>
+          <Button variant="outline" size="icon" className="hidden md:inline-flex" onClick={() => router.push("/profile")}>
+            <User className="h-5 w-5" />
           </Button>
         </div>
       </div>
