@@ -3,11 +3,10 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { updateProfile } from "firebase/auth"
-import { doc, updateDoc } from "firebase/firestore"
+import { doc, getDoc, updateDoc } from "firebase/firestore"
 import { db } from "@/lib/firebase"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/context/auth-context"
@@ -16,7 +15,8 @@ import Header from "@/components/header"
 
 export default function EditProfile() {
   const [name, setName] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
+  const [phone, setPhone] = useState("")
+  const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
   const { user, loading } = useAuth()
   const router = useRouter()
@@ -29,32 +29,56 @@ export default function EditProfile() {
       return
     }
 
-    // Set initial values
-    if (user) {
-      setName(user.displayName || "")
+    const loadUserData = async () => {
+      if (!user) return
+
+      try {
+        const userDoc = await getDoc(doc(db, "users", user.uid))
+        if (userDoc.exists()) {
+          const userData = userDoc.data()
+          setName(user.displayName || userData.fullName || "")
+          setPhone(userData.phone || "")
+        } else {
+          setName(user.displayName || "")
+        }
+      } catch (error) {
+        console.error("Error loading user data:", error)
+      } finally {
+        setIsLoading(false)
+      }
     }
 
-    setIsLoading(false)
+    if (user) {
+      loadUserData()
+    }
   }, [user, loading, router])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
     if (!user) return
+    if (!name.trim()) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Name is required",
+      })
+      return
+    }
 
     setIsSaving(true)
 
     try {
-      // Update profile in Firebase Auth
       await updateProfile(user, {
-        displayName: name,
+        displayName: name.trim(),
       })
 
-      // Update profile in Firestore
       try {
         const userRef = doc(db, "users", user.uid)
         await updateDoc(userRef, {
-          name,
+          fullName: name.trim(),
+          phone: phone.trim(),
+          updatedAt: new Date().toISOString(),
         })
       } catch (error) {
         // If Firestore update fails, we still continue since Auth update succeeded
@@ -62,16 +86,16 @@ export default function EditProfile() {
       }
 
       toast({
-        title: "Profile updated",
-        description: "Your profile has been successfully updated.",
+        title: "Success",
+        description: "Profile updated successfully",
       })
 
       router.push("/profile")
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "Update failed",
-        description: error.message || "Failed to update profile",
+        title: "Error",
+        description: error.message || "Failed to update profile. Please try again.",
       })
     } finally {
       setIsSaving(false)
@@ -86,35 +110,46 @@ export default function EditProfile() {
     <div className="container px-4 py-6 pb-24 md:pb-6">
       <Header title="Edit Profile" />
 
-      <Card>
-        <form onSubmit={handleSubmit}>
-          <CardHeader>
-            <CardTitle>Personal Information</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
-              <Input
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Your name"
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" value={user?.email || ""} disabled className="bg-muted" />
-              <p className="text-xs text-muted-foreground">Email cannot be changed</p>
-            </div>
-          </CardContent>
-          <CardFooter>
-            <Button type="submit" className="w-full bg-orange-red-500 hover:bg-orange-red-600" disabled={isSaving}>
-              {isSaving ? "Saving..." : "Save Changes"}
-            </Button>
-          </CardFooter>
+      <div className="max-w-md mx-auto animate-fade-in">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="name">Name</Label>
+            <Input
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter your full name"
+              className="h-[50px]"
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="email">Email</Label>
+            <Input id="email" value={user?.email || ""} disabled className="h-[50px] bg-muted" />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="phone">Phone</Label>
+            <Input
+              id="phone"
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="Enter your phone number"
+              className="h-[50px]"
+            />
+          </div>
+
+          <Button
+            type="submit"
+            className="w-full h-[50px] bg-orange-red-500 hover:bg-orange-red-600 mt-2"
+            disabled={isSaving}
+          >
+            {isSaving ? "Saving..." : "Save Changes"}
+          </Button>
         </form>
-      </Card>
+      </div>
     </div>
   )
 }
