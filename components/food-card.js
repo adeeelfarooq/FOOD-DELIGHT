@@ -34,7 +34,7 @@ export default function FoodCard({ food }) {
 
   return (
     <Card
-      className="overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
+      className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow rounded-xl shadow-md"
       onClick={() => router.push(`/food/${food.id}`)}
     >
       <div className="relative h-48 w-full">

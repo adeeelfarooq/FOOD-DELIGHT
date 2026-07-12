@@ -2,14 +2,13 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
 import { doc, setDoc } from "firebase/firestore"
 import { auth, db } from "@/lib/firebase"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
 import { ThemeToggle } from "@/components/theme-toggle"
 
@@ -26,16 +25,13 @@ export default function SignUp() {
     setIsLoading(true)
 
     try {
-      // Create user with email and password
       const userCredential = await createUserWithEmailAndPassword(auth, email, password)
       const user = userCredential.user
 
-      // Update profile with name
       await updateProfile(user, {
         displayName: name,
       })
 
-      // Store additional user info in Firestore
       await setDoc(doc(db, "users", user.uid), {
         name,
         email,
@@ -60,56 +56,77 @@ export default function SignUp() {
   }
 
   return (
-    <div className="container flex items-center justify-center min-h-screen px-4 py-12">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-2xl">Create Account</CardTitle>
+    <div className="container flex items-center justify-center min-h-screen px-4 py-12 bg-orange-50/50 dark:bg-transparent">
+      <div className="w-full max-w-md">
+        {/* Brand */}
+        <div className="flex flex-col items-center mb-3 animate-scale-in" style={{ animationDelay: "200ms" }}>
+          <div className="relative h-20 w-20 mb-1.5">
+            <Image
+              src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
+              alt="FoodDelight logo"
+              fill
+              className="object-contain"
+              unoptimized
+            />
+          </div>
+          <span className="text-xl font-bold tracking-wide">FOODDELIGHT</span>
+        </div>
+
+        <div className="flex items-center justify-center gap-2 mb-5 animate-fade-in-down">
+          <h1 className="text-2xl font-bold text-orange-red-500 text-center">Create Account</h1>
+          <div className="absolute right-6 top-6">
             <ThemeToggle />
           </div>
-          <CardDescription>Enter your information to create a new account</CardDescription>
-        </CardHeader>
-        <form onSubmit={handleSignUp}>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
-              <Input id="name" placeholder="John Doe" value={name} onChange={(e) => setName(e.target.value)} required />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="your.email@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-4">
-            <Button type="submit" className="w-full bg-orange-red-500 hover:bg-orange-red-600" disabled={isLoading}>
-              {isLoading ? "Creating Account..." : "Create Account"}
+        </div>
+
+        <form onSubmit={handleSignUp} className="space-y-3">
+          <div className="animate-slide-in-left" style={{ animationDelay: "200ms" }}>
+            <Input
+              placeholder="Full Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="h-[50px] border-orange-red-500"
+              required
+            />
+          </div>
+          <div className="animate-slide-in-right" style={{ animationDelay: "400ms" }}>
+            <Input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="h-[50px] border-orange-red-500"
+              required
+            />
+          </div>
+          <div className="animate-fade-in-up" style={{ animationDelay: "600ms" }}>
+            <Input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="h-[50px] border-orange-red-500"
+              required
+            />
+          </div>
+
+          <div className="animate-scale-in" style={{ animationDelay: "800ms" }}>
+            <Button
+              type="submit"
+              className="w-full h-[50px] bg-orange-red-500 hover:bg-orange-red-600 text-base font-bold mt-3"
+              disabled={isLoading}
+            >
+              {isLoading ? "Creating Account..." : "Sign Up"}
             </Button>
-            <div className="text-center text-sm">
-              Already have an account?{" "}
-              <Link href="/signin" className="text-orange-red-500 hover:underline">
-                Sign In
-              </Link>
-            </div>
-          </CardFooter>
+          </div>
+
+          <div className="text-center pt-2 animate-fade-in" style={{ animationDelay: "1000ms" }}>
+            <Link href="/signin" className="text-orange-red-500 hover:underline">
+              Already have an account? Sign In
+            </Link>
+          </div>
         </form>
-      </Card>
+      </div>
     </div>
   )
 }
