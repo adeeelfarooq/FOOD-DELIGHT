@@ -162,7 +162,7 @@ export default function Cart() {
               <span>${(cartTotal + 2.99).toFixed(2)}</span>
             </div>
             <Button
-              className="w-full mt-4 bg-orange-red-500 hover:bg-orange-red-600"
+              className="w-full mt-4"
               onClick={handlePlaceOrder}
               disabled={isPlacingOrder}
             >
@@ -171,10 +171,10 @@ export default function Cart() {
           </CardFooter>
         </Card>
       ) : (
-        <div className="text-center py-12">
-          <div className="mb-4 text-muted-foreground">Your cart is empty</div>
-          <Button onClick={() => router.push("/home")} className="bg-orange-red-500 hover:bg-orange-red-600">
-            Browse Menu
+       <div className="text-center py-12 animate-fade-in">
+          <div className="mb-4 text-lg text-muted-foreground">Your cart is empty</div>
+          <Button onClick={() => router.push("/home")}>
+            Continue Shopping
           </Button>
         </div>
       )}
