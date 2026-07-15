@@ -2,7 +2,7 @@
 
 #  Food Delight — Cross-Platform Food Ordering App
 
-A full-stack food ordering application shipped **twice from one codebase** — a native mobile app built with **React Native / Expo**, and a fully responsive web app built with **Next.js** — both sharing the same Firebase backend for authentication, orders, and user data.
+A full-stack food ordering application shipped twice from one codebase — a native mobile app built with **React Native / Expo**, and a fully responsive web app built with **Next.js** — both sharing the same Firebase backend for authentication, orders, and user data.
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-f97316?style=for-the-badge&logo=vercel)](https://food-delight-liard.vercel.app/)
 &nbsp;
