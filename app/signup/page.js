@@ -72,12 +72,16 @@ export default function SignUp() {
           <span className="text-xl font-bold tracking-wide">FOODDELIGHT</span>
         </div>
 
-        <div className="flex items-center justify-center gap-2 mb-5 animate-fade-in-down">
-          <h1 className="text-2xl font-bold text-orange-red-500 text-center">Create Account</h1>
-          <div className="absolute right-6 top-6">
-            <ThemeToggle />
-          </div>
+        <div className="flex items-center justify-between mb-2 animate-fade-in-down">
+          <h1 className="text-2xl font-bold text-orange-red-500">Create Account</h1>
+          <ThemeToggle />
         </div>
+        <p
+          className="text-base text-muted-foreground mb-5 animate-fade-in-down"
+          style={{ animationDelay: "150ms" }}
+        >
+          Enter your information to create a new account
+        </p>
 
         <form onSubmit={handleSignUp} className="space-y-3">
           <div className="animate-slide-in-left" style={{ animationDelay: "200ms" }}>

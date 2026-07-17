@@ -38,12 +38,9 @@ export default function ForgotPassword() {
     }
   }
 
-  return (
+ return (
     <div className="container flex items-center justify-center min-h-screen px-4 py-12">
-      <div className="w-full max-w-md text-center relative">
-        <div className="absolute right-6 top-6">
-          <ThemeToggle />
-        </div>
+      <div className="w-full max-w-md">
         <div className="flex flex-col items-center mb-6 animate-scale-in">
           <div className="relative h-[90px] w-[90px] mb-3">
             <Image
@@ -56,7 +53,10 @@ export default function ForgotPassword() {
           </div>
         </div>
 
-        <h1 className="text-2xl font-bold text-orange-red-500 mb-2 animate-fade-in-down">Reset Password</h1>
+        <div className="flex items-center justify-between mb-2 animate-fade-in-down">
+          <h1 className="text-2xl font-bold text-orange-red-500">Reset Password</h1>
+          <ThemeToggle />
+        </div>
         <p
           className="text-muted-foreground mb-6 animate-fade-in-down"
           style={{ animationDelay: "150ms" }}
