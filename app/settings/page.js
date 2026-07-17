@@ -149,7 +149,7 @@ export default function Settings() {
   const canSave = hasChanges() && !saving
 
   return (
-    <div className="container px-4 py-6 pb-24 md:pb-6">
+    <div className="container px-4 py-6 pb-24 ">
       <Header title="Settings" />
 
       <div className="max-w-md mx-auto animate-fade-in-up">

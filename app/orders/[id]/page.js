@@ -120,7 +120,7 @@ export default function OrderDetails({ params }) {
   const subtotal = Math.max(0, order.totalAmount - deliveryFee)
 
  return (
-    <div className="container px-4 py-6 pb-24 md:pb-6 animate-fade-in-up">
+    <div className="container px-4 py-6 pb-24  animate-fade-in-up">
       <Header title="Order Details" />
 
       <Card className="mb-6">

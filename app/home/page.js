@@ -107,7 +107,7 @@ export default function Home() {
   }
 
   return (
-    <div className="container px-4 py-6 pb-24 md:pb-6">
+    <div className="container px-4 py-6 pb-24 ">
       {/* Header */}
      {/* Header */}
       <div className="flex justify-between items-center mb-6 animate-fade-in-down">
@@ -120,14 +120,6 @@ export default function Home() {
         </div>
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <Button variant="outline" size="icon" className="relative" onClick={() => router.push("/cart")}>
-            <ShoppingCart className="h-5 w-5" />
-            {cartItems.length > 0 && (
-              <span className="absolute -top-2 -right-2 bg-orange-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                {cartItems.length}
-              </span>
-            )}
-          </Button>
         </div>
       </div>
 

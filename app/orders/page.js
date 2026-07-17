@@ -120,7 +120,7 @@ export default function Orders() {
   }
 
   return (
-    <div className="container px-4 py-6 pb-24 md:pb-6">
+    <div className="container px-4 py-6 pb-24 ">
       <Header title="Your Orders" />
 
       {orders.length > 0 ? (

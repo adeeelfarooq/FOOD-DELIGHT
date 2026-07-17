@@ -108,7 +108,7 @@ export default function EditProfile() {
   }
 
   return (
-    <div className="container px-4 py-6 pb-24 md:pb-6">
+    <div className="container px-4 py-6 pb-24 ">
       <Header title="Edit Profile" />
 
       <div className="max-w-md mx-auto animate-fade-in">

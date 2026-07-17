@@ -44,7 +44,7 @@ export default function Profile() {
   }
 
   return (
-    <div className="container px-4 py-6 pb-24 md:pb-6 min-h-[calc(100vh-2rem)] flex flex-col">
+    <div className="container px-4 py-6 pb-24  min-h-[calc(100vh-2rem)] flex flex-col">
       <Header title="Profile" />
 
       <div className="flex flex-col items-center max-w-sm mx-auto w-full animate-fade-in flex-1 justify-center">
