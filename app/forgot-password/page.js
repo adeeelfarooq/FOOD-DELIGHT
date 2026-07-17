@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { sendPasswordResetEmail } from "firebase/auth"
 import { auth } from "@/lib/firebase"
@@ -42,6 +43,17 @@ export default function ForgotPassword() {
       <div className="w-full max-w-md text-center relative">
         <div className="absolute right-6 top-6">
           <ThemeToggle />
+        </div>
+        <div className="flex flex-col items-center mb-6 animate-scale-in">
+          <div className="relative h-[90px] w-[90px] mb-3">
+            <Image
+              src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
+              alt="FoodDelight logo"
+              fill
+              className="object-contain"
+              unoptimized
+            />
+          </div>
         </div>
 
         <h1 className="text-2xl font-bold text-orange-red-500 mb-2 animate-fade-in-down">Reset Password</h1>

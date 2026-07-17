@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 
 const ForgotPasswordScreen = ({ navigation }) => {
@@ -8,6 +8,11 @@ const ForgotPasswordScreen = ({ navigation }) => {
 
   return (
     <View style={[styles.container, { backgroundColor: isDark ? '#111827' : '#fff7ed' }]}> 
+    <Image
+        source={{ uri: "https://cdn-icons-png.flaticon.com/512/3075/3075977.png" }}
+        style={styles.logo}
+        resizeMode="contain"
+      />
       <Text style={[styles.title, { color: isDark ? '#f97316' : '#f97316' }]}>Reset Password</Text>
       <Text style={[styles.subtitle, { color: isDark ? '#9ca3af' : '#6b7280' }]}> 
         Enter your email address and we'll send you instructions to reset your password.
@@ -36,6 +41,12 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: 'center',
+  },
+  logo: {
+    width: 90,
+    height: 90,
+    marginBottom: 12,
+    alignSelf: 'center',
   },
   title: {
     fontSize: 24,
