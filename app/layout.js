@@ -9,9 +9,12 @@ import BottomNavigator from "@/components/bottom-navigator"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "Food Ordering App",
+  title: "FOOD DELIGHT",
   description: "A modern food ordering application",
-    generator: 'v0.dev'
+    generator: 'v0.dev',
+    icons: {
+    icon: "https://cdn-icons-png.flaticon.com/512/3075/3075977.png",
+  },
 }
 
 export default function RootLayout({
