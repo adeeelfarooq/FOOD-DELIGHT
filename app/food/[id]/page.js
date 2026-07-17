@@ -20,14 +20,13 @@ export default function FoodDetails({ params }) {
   const { addToCart } = useCart() || {}
 
   useEffect(() => {
-    // Sample food items data
     const sampleFoodItems = [
       {
         id: "1",
         name: "Classic Cheeseburger",
         description: "Juicy beef patty with melted cheese, lettuce, tomato, and special sauce",
         price: 8.99,
-        image: "/placeholder.svg?height=400&width=400&text=Cheeseburger",
+        image: "https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=600",
         category: "Burgers",
       },
       {
@@ -35,7 +34,7 @@ export default function FoodDetails({ params }) {
         name: "Margherita Pizza",
         description: "Traditional pizza with tomato sauce, fresh mozzarella, and basil",
         price: 12.99,
-        image: "/placeholder.svg?height=400&width=400&text=Pizza",
+        image: "https://images.pexels.com/photos/2147491/pexels-photo-2147491.jpeg?auto=compress&cs=tinysrgb&w=600",
         category: "Pizza",
       },
       {
@@ -43,7 +42,7 @@ export default function FoodDetails({ params }) {
         name: "Chicken Caesar Salad",
         description: "Crisp romaine lettuce with grilled chicken, parmesan, and Caesar dressing",
         price: 9.99,
-        image: "/placeholder.svg?height=400&width=400&text=Salad",
+        image: "https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg?auto=compress&cs=tinysrgb&w=600",
         category: "Salads",
       },
       {
@@ -51,7 +50,7 @@ export default function FoodDetails({ params }) {
         name: "Spicy Ramen Bowl",
         description: "Authentic Japanese ramen with spicy broth, egg, and tender pork",
         price: 11.99,
-        image: "/placeholder.svg?height=400&width=400&text=Ramen",
+        image: "https://images.pexels.com/photos/884600/pexels-photo-884600.jpeg?auto=compress&cs=tinysrgb&w=600",
         category: "Asian",
       },
       {
@@ -59,7 +58,7 @@ export default function FoodDetails({ params }) {
         name: "Chocolate Brownie Sundae",
         description: "Warm chocolate brownie topped with vanilla ice cream and hot fudge",
         price: 6.99,
-        image: "/placeholder.svg?height=400&width=400&text=Dessert",
+        image: "https://images.pexels.com/photos/3026804/pexels-photo-3026804.jpeg?auto=compress&cs=tinysrgb&w=600",
         category: "Desserts",
       },
       {
@@ -67,12 +66,11 @@ export default function FoodDetails({ params }) {
         name: "Veggie Wrap",
         description: "Fresh vegetables, hummus, and feta cheese wrapped in a spinach tortilla",
         price: 7.99,
-        image: "/placeholder.svg?height=400&width=400&text=Wrap",
+        image: "https://images.pexels.com/photos/1352270/pexels-photo-1352270.jpeg?auto=compress&cs=tinysrgb&w=600",
         category: "Vegetarian",
       },
     ]
 
-    // Find the food item with the matching ID
     const foundFood = sampleFoodItems.find((item) => item.id === params.id)
 
     if (foundFood) {
@@ -91,6 +89,11 @@ export default function FoodDetails({ params }) {
 
   const handleAddToCart = () => {
     if (food) {
+      if (typeof addToCart !== "function") {
+        console.error("Cart is not ready yet")
+        return
+      }
+
       addToCart({
         ...food,
         quantity,
@@ -116,30 +119,42 @@ export default function FoodDetails({ params }) {
   }
 
   return (
-    <div className="container px-4 py-6 pb-24 ">
+    <div className="container px-4 py-6 pb-24">
       <Header title={food.name} />
 
-      <Card className="overflow-hidden">
-        <div className="relative h-64 w-full">
+      <Card className="overflow-hidden animate-scale-in">
+        <div className="relative h-64 w-full rounded-b-2xl overflow-hidden">
           <Image
-            src={food.image || "/placeholder.svg?height=400&width=400"}
+            src={food.image}
             alt={food.name}
             fill
             className="object-cover"
-            priority={true}
+            unoptimized
+            priority
           />
         </div>
 
         <div className="p-6 space-y-4">
-          <div className="flex justify-between items-start">
+          <div
+            className="flex justify-between items-start animate-fade-in-up"
+            style={{ animationDelay: "200ms" }}
+          >
             <h1 className="text-2xl font-bold">{food.name}</h1>
             <div className="text-xl font-semibold text-orange-red-500">${food.price.toFixed(2)}</div>
           </div>
 
-          <p className="text-muted-foreground">{food.description}</p>
+          <p
+            className="text-muted-foreground animate-fade-in-up"
+            style={{ animationDelay: "400ms" }}
+          >
+            {food.description}
+          </p>
 
           <div className="pt-4">
-            <div className="flex items-center justify-between">
+            <div
+              className="flex items-center justify-between animate-fade-in-up"
+              style={{ animationDelay: "500ms" }}
+            >
               <div className="flex items-center space-x-4">
                 <Button variant="outline" size="icon" onClick={() => setQuantity(Math.max(1, quantity - 1))}>
                   <Minus className="h-4 w-4" />
@@ -150,13 +165,20 @@ export default function FoodDetails({ params }) {
                 </Button>
               </div>
 
-              <div className="text-xl font-semibold">${(food.price * quantity).toFixed(2)}</div>
+              <div
+                className="text-xl font-semibold animate-fade-in-up"
+                style={{ animationDelay: "600ms" }}
+              >
+                ${(food.price * quantity).toFixed(2)}
+              </div>
             </div>
 
-            <Button className="w-full mt-6 bg-orange-red-500 hover:bg-orange-red-600" onClick={handleAddToCart}>
-              <ShoppingCart className="mr-2 h-5 w-5" />
-              Add to Cart
-            </Button>
+            <div className="animate-fade-in-up" style={{ animationDelay: "800ms" }}>
+              <Button className="w-full mt-6" onClick={handleAddToCart}>
+                <ShoppingCart className="mr-2 h-5 w-5" />
+                Add to Cart
+              </Button>
+            </div>
           </div>
         </div>
       </Card>
