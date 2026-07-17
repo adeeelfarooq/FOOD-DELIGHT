@@ -11,52 +11,58 @@ export default function BottomNavigator() {
   const cart = useCart()
   const cartItems = cart?.cartItems ?? []
 
-  // Hide bottom navigator on authentication pages
   const authPages = ["/signin", "/signup", "/forgot-password", "/"]
 
-  // Check if current path exactly matches any auth page path
   if (authPages.includes(pathname)) {
     return null
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-background border-t p-3 flex justify-around md:hidden z-10">
+    <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-[#1f2937] border-t border-[#e5e7eb] dark:border-[#374151] py-2 flex justify-around md:hidden z-10">
       <Button
         variant="ghost"
-        className={`flex flex-col items-center ${pathname === "/home" ? "text-orange-red-500" : ""}`}
+        className={`flex flex-col items-center gap-0.5 hover:bg-transparent ${
+          pathname === "/home" ? "text-orange-red-500" : "text-[#6b7280] dark:text-[#9ca3af]"
+        }`}
         onClick={() => router.push("/home")}
       >
-        <Home className="h-5 w-5" />
-        <span className="text-xs mt-1">Home</span>
+        <Home className="h-6 w-6" />
+        <span className="text-[11px]">Home</span>
       </Button>
       <Button
         variant="ghost"
-        className={`flex flex-col items-center ${pathname === "/orders" || pathname.startsWith("/orders/") ? "text-orange-red-500" : ""}`}
+        className={`flex flex-col items-center gap-0.5 hover:bg-transparent ${
+          pathname === "/orders" || pathname.startsWith("/orders/") ? "text-orange-red-500" : "text-[#6b7280] dark:text-[#9ca3af]"
+        }`}
         onClick={() => router.push("/orders")}
       >
-        <History className="h-5 w-5" />
-        <span className="text-xs mt-1">Orders</span>
+        <History className="h-6 w-6" />
+        <span className="text-[11px]">Orders</span>
       </Button>
       <Button
         variant="ghost"
-        className={`flex flex-col items-center relative ${pathname === "/cart" ? "text-orange-red-500" : ""}`}
+        className={`flex flex-col items-center gap-0.5 relative hover:bg-transparent ${
+          pathname === "/cart" ? "text-orange-red-500" : "text-[#6b7280] dark:text-[#9ca3af]"
+        }`}
         onClick={() => router.push("/cart")}
       >
-        <ShoppingCart className="h-5 w-5" />
+        <ShoppingCart className="h-6 w-6" />
         {(cartItems?.length ?? 0) > 0 && (
-          <span className="absolute top-0 right-1/4 bg-orange-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+          <span className="absolute -top-0.5 right-1 bg-orange-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center">
             {cartItems.length}
           </span>
         )}
-        <span className="text-xs mt-1">Cart</span>
+        <span className="text-[11px]">Cart</span>
       </Button>
       <Button
         variant="ghost"
-        className={`flex flex-col items-center ${pathname === "/profile" || pathname.startsWith("/profile/") ? "text-orange-red-500" : ""}`}
+        className={`flex flex-col items-center gap-0.5 hover:bg-transparent ${
+          pathname === "/profile" || pathname.startsWith("/profile/") ? "text-orange-red-500" : "text-[#6b7280] dark:text-[#9ca3af]"
+        }`}
         onClick={() => router.push("/profile")}
       >
-        <User className="h-5 w-5" />
-        <span className="text-xs mt-1">Profile</span>
+        <User className="h-6 w-6" />
+        <span className="text-[11px]">Profile</span>
       </Button>
     </div>
   )
