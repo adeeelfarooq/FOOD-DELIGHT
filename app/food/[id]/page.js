@@ -122,8 +122,8 @@ export default function FoodDetails({ params }) {
     <div className="container px-4 py-6 pb-24">
       <Header title={food.name} />
 
-      <Card className="overflow-hidden animate-scale-in">
-        <div className="relative h-64 w-full rounded-b-2xl overflow-hidden">
+      <Card className="overflow-hidden animate-scale-in max-w-xl mx-auto">
+        <div className="relative h-48 sm:h-56 w-full rounded-b-2xl overflow-hidden">
           <Image
             src={food.image}
             alt={food.name}
@@ -134,23 +134,23 @@ export default function FoodDetails({ params }) {
           />
         </div>
 
-        <div className="p-6 space-y-4">
+        <div className="p-5 space-y-3">
           <div
             className="flex justify-between items-start animate-fade-in-up"
             style={{ animationDelay: "200ms" }}
           >
-            <h1 className="text-2xl font-bold">{food.name}</h1>
-            <div className="text-xl font-semibold text-orange-red-500">${food.price.toFixed(2)}</div>
+            <h1 className="text-xl font-bold">{food.name}</h1>
+            <div className="text-lg font-semibold text-orange-red-500">${food.price.toFixed(2)}</div>
           </div>
 
           <p
-            className="text-muted-foreground animate-fade-in-up"
+            className="text-sm text-muted-foreground animate-fade-in-up"
             style={{ animationDelay: "400ms" }}
           >
             {food.description}
           </p>
 
-          <div className="pt-4">
+          <div className="pt-2">
             <div
               className="flex items-center justify-between animate-fade-in-up"
               style={{ animationDelay: "500ms" }}
@@ -166,7 +166,7 @@ export default function FoodDetails({ params }) {
               </div>
 
               <div
-                className="text-xl font-semibold animate-fade-in-up"
+                className="text-lg font-semibold animate-fade-in-up"
                 style={{ animationDelay: "600ms" }}
               >
                 ${(food.price * quantity).toFixed(2)}
@@ -174,7 +174,7 @@ export default function FoodDetails({ params }) {
             </div>
 
             <div className="animate-fade-in-up" style={{ animationDelay: "800ms" }}>
-              <Button className="w-full mt-6" onClick={handleAddToCart}>
+              <Button className="w-full mt-4" onClick={handleAddToCart}>
                 <ShoppingCart className="mr-2 h-5 w-5" />
                 Add to Cart
               </Button>
