@@ -120,9 +120,6 @@ export default function Home() {
         </div>
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <Button variant="outline" size="icon" className="hidden md:inline-flex" onClick={() => router.push("/orders")}>
-            <History className="h-5 w-5" />
-          </Button>
           <Button variant="outline" size="icon" className="relative" onClick={() => router.push("/cart")}>
             <ShoppingCart className="h-5 w-5" />
             {cartItems.length > 0 && (
@@ -130,9 +127,6 @@ export default function Home() {
                 {cartItems.length}
               </span>
             )}
-          </Button>
-          <Button variant="outline" size="icon" className="hidden md:inline-flex" onClick={() => router.push("/profile")}>
-            <User className="h-5 w-5" />
           </Button>
         </div>
       </div>

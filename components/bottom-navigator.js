@@ -18,7 +18,7 @@ export default function BottomNavigator() {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-[#1f2937] border-t border-[#e5e7eb] dark:border-[#374151] py-2 flex justify-around md:hidden z-10">
+    <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-[#1f2937] border-t border-[#e5e7eb] dark:border-[#374151] py-2 flex justify-around z-10">
       <Button
         variant="ghost"
         className={`flex flex-col items-center gap-0.5 hover:bg-transparent ${
