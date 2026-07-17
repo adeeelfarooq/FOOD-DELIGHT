@@ -41,8 +41,8 @@ export default function SignIn() {
     <div className="container flex items-center justify-center min-h-screen px-4 py-12">
       <div className="w-full max-w-md">
         {/* Brand */}
-        <div className="flex flex-col items-center mb-8 animate-fade-in-down">
-          <div className="relative h-[90px] w-[90px] mb-3">
+        <div className="flex flex-col items-center mb-5 animate-fade-in-down">
+          <div className="relative h-[70px] w-[70px] mb-2">
             <Image
               src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
               alt="FoodDelight logo"
@@ -60,17 +60,17 @@ export default function SignIn() {
           className="flex items-center justify-between mb-2 animate-fade-in-down"
           style={{ animationDelay: "400ms" }}
         >
-          <h2 className="text-2xl font-bold">Sign In</h2>
+          <h2 className="text-2xl font-bold text-orange-red-500">Sign In</h2>
           <ThemeToggle />
         </div>
         <p
-          className="text-base text-muted-foreground mb-6 animate-fade-in-up"
+          className="text-base text-muted-foreground mb-4 animate-fade-in-up"
           style={{ animationDelay: "600ms" }}
         >
           Enter your email and password to access your account
         </p>
 
-        <form onSubmit={handleSignIn} className="space-y-5">
+        <form onSubmit={handleSignIn} className="space-y-3">
           <div className="space-y-2 animate-fade-in-up" style={{ animationDelay: "750ms" }}>
             <Label htmlFor="email">Email</Label>
             <Input
@@ -79,7 +79,7 @@ export default function SignIn() {
               placeholder="your.email@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="h-[50px]"
+              className="h-[50px] border-orange-red-500"
               required
             />
           </div>
@@ -96,7 +96,7 @@ export default function SignIn() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="h-[50px]"
+              className="h-[50px] border-orange-red-500"
               required
             />
           </div>
