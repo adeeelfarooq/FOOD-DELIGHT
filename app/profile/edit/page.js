@@ -18,7 +18,7 @@ export default function EditProfile() {
   const [phone, setPhone] = useState("")
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
-  const { user, loading } = useAuth()
+  const { user, loading, refreshUser } = useAuth()
   const router = useRouter()
   const { toast } = useToast()
 
@@ -69,7 +69,7 @@ export default function EditProfile() {
     setIsSaving(true)
 
     try {
-      await updateProfile(user, {
+      await updateProfile(auth.currentUser, {
         displayName: name.trim(),
       })
 
@@ -81,9 +81,10 @@ export default function EditProfile() {
           updatedAt: new Date().toISOString(),
         })
       } catch (error) {
-        // If Firestore update fails, we still continue since Auth update succeeded
         console.error("Failed to update Firestore profile:", error)
       }
+
+      refreshUser()
 
       toast({
         title: "Success",

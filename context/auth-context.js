@@ -63,6 +63,17 @@ export const AuthProvider = ({ children }) => {
     signup,
     login,
     logout,
+    refreshUser,
+  };
+  const refreshUser = () => {
+    if (auth.currentUser) {
+      setUser({
+        uid: auth.currentUser.uid,
+        email: auth.currentUser.email,
+        displayName: auth.currentUser.displayName,
+        photoURL: auth.currentUser.photoURL,
+      });
+    }
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
