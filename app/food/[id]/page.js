@@ -122,7 +122,7 @@ export default function FoodDetails({ params }) {
     <div className="container px-4 py-6 pb-24">
       <Header title={food.name} />
 
-      <Card className="overflow-hidden animate-scale-in max-w-xl mx-auto">
+      <Card className="overflow-hidden animate-scale-in max-w-6xl  ms-auto">
         <div className="relative h-48 sm:h-56 w-full rounded-b-2xl overflow-hidden">
           <Image
             src={food.image}

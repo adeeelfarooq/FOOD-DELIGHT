@@ -57,14 +57,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const value = {
-    user,
-    loading,
-    signup,
-    login,
-    logout,
-    refreshUser,
-  };
   const refreshUser = () => {
     if (auth.currentUser) {
       setUser({
@@ -75,6 +67,16 @@ export const AuthProvider = ({ children }) => {
       });
     }
   };
+
+  const value = {
+    user,
+    loading,
+    signup,
+    login,
+    logout,
+    refreshUser,
+  };
+  
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
